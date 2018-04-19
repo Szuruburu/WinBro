@@ -1,8 +1,8 @@
 # AHK Studio backup files
 backup
 
-# Temp folder
-temp
+# Project folder
+__build
 
 log.txt
 
