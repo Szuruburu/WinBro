@@ -1,9 +1,9 @@
 # AHK Studio backup files
-backup
-AHK-Studio Backup
+backup/
+AHK-Studio Backup/
 
 # Project folder
-__build
+__build/
 
 log.txt
 
