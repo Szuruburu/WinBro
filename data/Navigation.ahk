@@ -23,7 +23,7 @@
 
 GEN_Up:
 if (GetKeyState(modk_alt) == 1)
-	SendInput, {PgUp}
+	SendInput, {Up %updownjump_size%}
 
 else if (GetKeyState(modk_ctrl) == 1)
 	SendInput, ^{Up}
@@ -34,7 +34,7 @@ return
 
 DEN_Down:
 if (GetKeyState(modk_alt) == 1)
-	SendInput, {PgDn}
+	SendInput, {Down %updownjump_size%}
 
 else if (GetKeyState(modk_ctrl) == 1)
 	SendInput, ^{Down}

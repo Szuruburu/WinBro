@@ -1,11 +1,12 @@
 # AHK Studio backup files
-backup/
-AHK-Studio Backup/
+backup
+backup/**
+AHK-Studio Backup
+AHK-Studio Backup/**
 
 # Project folder
-__build/
-
-log.txt
+build
+build/**
 
 # Windows image file caches
 Thumbs.db

@@ -104,7 +104,10 @@ RunCode:
 	global navRight	:= "d"
 	global navAuxUp	:= "q"
 	global navAuxDown	:= "e"
-
+	
+	global updownjump_size := 4
+	
+	
 	Hotkey, IfWinActive
 	
 	; GUI testing zone ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
