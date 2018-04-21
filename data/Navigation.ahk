@@ -370,17 +370,18 @@ return
 
 ClearWindowLock() {
 	global
-	WinSet, AlwaysOnTop, Off,
-	WinSet, ExStyle,-0x20,
+	WinSet, AlwaysOnTop, Off, ahk_id %LOCKED_hwnd%
+	WinSet, ExStyle,-0x20, ahk_id %LOCKED_hwnd%
 	WinFade("ahk_id " ct_hwnd,0,20)
 	Gui, Clitog%i%: Destroy
-	WinFade("ahk_id " KDEm_id,255,KDE_winfade_time_in)
-	WinActivate
+	WinFade("ahk_id " LOCKED_hwnd,255,KDE_winfade_time_in)
+	WinActivate, ahk_id %LOCKED_hwnd%
 	i++
 }
 
 ApplyWindowLock(WinX, WinY, hwnd) {
 	global
+	LOCKED_hwnd := WinActive()
 	ct_bgcolor := "252525"
 	margin := 50
 	ct_x:=WinX+margin,ct_y:=WinY+margin,ct_w:=65,ct_h:=35
@@ -434,7 +435,6 @@ WatchMouse:
 			WinSet, ExStyle, +0x20, ahk_id %KDEm_id%
 			Gui_OLSet.Insert(KDEm_id)
 			;Gui_OLSet.push(KDEm_id)
-
 			ApplyWindowLock(win_x,win_y,KDEm_id)
 			SetTimer, SpaceBarOn_Delay, -1000
 			RestoreCursors()
