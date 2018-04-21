@@ -3,7 +3,13 @@ A multi-funcional navigation machine
 It's just a splash screen
 Push a button - watch what happens
 He's running in the tray!
-WinBros are GOOO!!!
+WinBros ARE GOOO!!!
 Hi
 Initializing modules... Done.
-Initializing libraries... Done 
+Initializing libraries... Done.
+Hold Capslock a lot
+Terminating the default CS function... Done.
+Geolocating user... J/k. Or Am I?
+I was j/k about the geolocating eariler
+And remember - you'll find him in the tray
+The meaning of life? Easy: 42

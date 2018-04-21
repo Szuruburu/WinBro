@@ -1,5 +1,6 @@
 
 GenRndStrFromFile(input_file) {
+ global tpoc_file
 	i := 1
 	loop, Read, %input_file%
 	{
@@ -8,14 +9,16 @@ GenRndStrFromFile(input_file) {
 	}
 	
 	Random, fmsg, 1, i-1
-	iniRead, pmsg, %ini_file%, TempValues, iRAN_msgPreviousPhraseIndex
+	iniRead, pmsg, %tpoc_file%, TempValues, iRAN_msgPreviousPhraseIndex
+	
+	; Avoid message repeating
 	if (fmsg == pmsg) {
 		fmsg := (fmsg < 1) ? fmsg + round(Fmsg/2)
 		: (fmsg == i) ? fmsg fmsg - round(Fmsg/2) : fmsg + 1
 	}
 	
-	Tip("previous: " pmsg "`ncurrent: " fmsg)
-	iniWrite, %fmsg%, %ini_file%, TempValues, iRAN_msgPreviousPhraseIndex
+	;Tip("previous: " pmsg "`ncurrent: " fmsg)
+	iniWrite, %fmsg%, %tpoc_file%, TempValues, iRAN_msgPreviousPhraseIndex
 	return sm%fmsg%
 }
 
@@ -72,6 +75,40 @@ TestHK(t_hwnd, t_br, t_dr) {
 		GoSub, %t_dr%
 	}
 }
+
+WL_ReleaseButton:
+	WinGetPos, win_x, win_y,,, ahk_id %LOCKED_hwnd%
+	ct_bgcolor := "252525"
+	margin := 50
+	ct_x:=win_x+margin,ct_y:=win_y+margin,ct_w:=65,ct_h:=35
+	
+	CoordMode, Screen
+	ct_x := (ct_x > (A_ScreenWidth - margin)) ? A_ScreenWidth - ct_w - margin
+	: (ct_x < margin) ? margin
+	: ct_x
+	
+	iniWrite, %ct_x%, %tpoc_file%, TempValues, iWL_ctx
+	
+	ct_y := (ct_y > (A_ScreenHeight - margin)) ? A_ScreenHeight ct_h - margin
+	: (ct_y < margin) ? margin
+	: ct_y
+	
+	iniWrite, %ct_y%, %tpoc_file%, TempValues, iWL_cty
+	reloaded := false
+
+	CoordMode,Mouse
+	GUi, Clitog%i%:-Caption +LastFound +ToolWindow +AlwaysOnTop
+	ct_hwnd := WinExist()
+	WinSet, Transparent, 0
+	Gui, Clitog%i%: Color, % "0x" ct_bgcolor
+	Gui, Clitog%i%: Add, Button, x0 y0 w%ct_w% h%ct_h% gClearWindowLock, % "RELEASE" 
+	Gui, Clitog%i%: Show, x%ct_x% y%ct_y% w%ct_w% h%ct_h% NoActivate
+	WinFade("ahk_id " ct_hwnd,225,10)
+
+	Gui_OLSet.Insert(ct_hwnd)
+	Gui_OLSet.Show_Me := Func("Show_Me")
+	Gui_OLSet.Show_Me()
+return
 
 ClickIndicatorDestroy:
 	SetTimer, ClickIndicatorDestroy, off

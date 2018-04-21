@@ -383,34 +383,13 @@ ClearWindowLock() {
 	i++
 }
 
-ApplyWindowLock(WinX, WinY, hwnd) {
+ApplyWindowLock(hwnd) {
 	global
 	LOCKED_hwnd := WinActive()
-	ct_bgcolor := "252525"
-	margin := 50
-	ct_x:=WinX+margin,ct_y:=WinY+margin,ct_w:=65,ct_h:=35
-	
-	CoordMode, Screen
-	ct_x := (ct_x > (A_ScreenWidth - margin)) ? A_ScreenWidth - ct_w - margin
-	: (ct_x < margin) ? margin
-	: ct_x
-	
-	ct_y := (ct_y > (A_ScreenHeight - margin)) ? A_ScreenHeight ct_h - margin
-	: (ct_y < margin) ? margin
-	: ct_y
-	
-	CoordMode,Mouse
-	GUi, Clitog%i%:-Caption +LastFound +ToolWindow +AlwaysOnTop
-	ct_hwnd := WinExist()
-	WinSet, Transparent, 0
-	Gui, Clitog%i%: Color, % "0x" ct_bgcolor
-	Gui, Clitog%i%: Add, Button, x0 y0 w%ct_w% h%ct_h% gClearWindowLock, % "RELEASE" 
-	Gui, Clitog%i%: Show, x%ct_x% y%ct_y% w%ct_w% h%ct_h% NoActivate
-	WinFade("ahk_id " ct_hwnd,225,10)
-
-	Gui_OLSet.Insert(ct_hwnd)
-	Gui_OLSet.Show_Me := Func("Show_Me")
-	Gui_OLSet.Show_Me()
+	IniWrite, %LOCKED_hwnd%, %tpoc_file%, TempValues, idWL_LockedHWND
+	WinSet, AlwaysOnTop, On, ahk_id %LOCKED_hwnd%
+	WinSet, ExStyle, +0x20, ahk_id %LOCKED_hwnd%
+	GoSub, WL_ReleaseButton
 }
 
 Show_me(this) {
@@ -420,6 +399,18 @@ Show_me(this) {
 	clipboard := GuiList
 	clipwait
 }
+
+TransparencyLock:
+	; Transparency lock
+	Hotkey, Space, on
+	WinFade("ahk_id " KDEm_id,KDE_winopacity_lock_opacity,KDE_winopacity_lock_effect_time)
+	Gui_OLSet.Insert(KDEm_id)
+	;Gui_OLSet.push(KDEm_id)
+	ApplyWindowLock(KDEm_id)
+	SetTimer, SpaceBarOn_Delay, -1000
+	RestoreCursors()
+	SetTimer, WatchMouse, off
+return
 
 WatchMouse:
 	GetKeyState, LButtonState, LButton, P
@@ -431,19 +422,7 @@ WatchMouse:
 		GetKeyState, SpaceState, Space, P
 		if (SpaceState = "D")
 		{
-			; Transparency lock
-			Hotkey, Space, on
-			WinFade("ahk_id " KDEm_id,KDE_winopacity_lock_opacity,KDE_winopacity_lock_effect_time)
-			WinGetPos, win_x, win_y,,,ahk_id %KDEm_id%
-			WinSet, AlwaysOnTop, On, ahk_id %KDEm_id%
-			WinSet, ExStyle, +0x20, ahk_id %KDEm_id%
-			Gui_OLSet.Insert(KDEm_id)
-			;Gui_OLSet.push(KDEm_id)
-			ApplyWindowLock(win_x,win_y,KDEm_id)
-			SetTimer, SpaceBarOn_Delay, -1000
-			RestoreCursors()
-			SetTimer, WatchMouse, off
-			return
+			GoSub, TransparencyLock
 		}
 		
 		GetKeyState, KDEr_Button, RButton, P

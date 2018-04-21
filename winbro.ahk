@@ -35,7 +35,7 @@ GroupAdd FileExplorer, ahk_class #32770
 ;; Global variables
 ;;;;;;;;;;;;;;;;;;
 global apptitle := "WinBro"
-global version := "0.76"
+global version := "0.78"
 global email := "szuru.buru@hotmaiil.com"
 global author := "Michał Szulecki"
 
@@ -55,6 +55,7 @@ GuiList=
 
 ; File paths
 global ini_file := % A_AppData "\Szuruburu\" apptitle "\" A_UserName "Settings.ini"
+global tpoc_file := % A_AppData "\Szuruburu\" apptitle "\tpoc.ini"
 global ranmsg_file := % A_ScriptDir "\data\rndmsg.txt"
 
 ; Volume module
@@ -69,7 +70,7 @@ global color_main_regulartext	:= "222222"
 Menu, Tray, Tip,% apptitle " v" version
 Menu, Tray, Add, ;-------------------------------
 Menu, Tray, Add, ;-------------------------------
-Menu, Tray, Add,% "Restart`tShift+Esc",Restart
+Menu, Tray, Add,% "Reload`tShift+Esc",Restart
 Menu, Tray, Add,% "Exit " apptitle,Quit
 Menu, Tray, icon,%A_ScriptDir%\so.ico
 Menu, Tray, click,1
@@ -83,6 +84,13 @@ RunCode:
 	RestoreCursors()
 	FileCreateDir, % A_AppData "\Szuruburu\" apptitle
 	iniRead, Autostart, %ini_file%, General, bStartWithWindows, 1
+	iniRead, LOCKED_hwnd, %tpoc_file%, TempValues, idWL_LockedHWND
+	
+	if (WinExist("ahk_id " LOCKED_hwnd)) {
+		iniRead, ct_x, %tpoc_file%, TempValues, iWL_ctx
+		iniRead, ct_y, %tpoc_file%, TempValues, iWL_cty
+		GoSub, WL_ReleaseButton
+	}
 
 	if !FileExist(ini_file) {
 		SaveSettings()
@@ -105,6 +113,7 @@ RunCode:
 	global navRight	:= "d"
 	global navAuxUp	:= "q"
 	global navAuxDown	:= "e"
+	global volModk		:= "#"
 	
 	global updownjump_size := 4
 	
@@ -118,8 +127,8 @@ RunCode:
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
 	Hotkey, +Esc, Restart
-	Hotkey, #WheelUp, VolumeUp
-	Hotkey, #WheelDown, VolumeDown
+	Hotkey, %volModk%WheelUp, VolumeUp
+	Hotkey, %volModk%WheelDown, VolumeDown
 	Hotkey, #F1, HideDesktopIcons
 	Hotkey, %modk_main% & Esc, AnyWindowAlwaysOnTopToggle
 	;Hotkey, WheelUp, HoverScroll_ScrollUP, P5000
