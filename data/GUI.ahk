@@ -1,6 +1,49 @@
+
+GenRndStrFromFile(input_file) {
+ global tpoc_file
+ 
+	i := 0
+	loop, Read, %input_file%
+	{
+		sm%i% := A_LoopReadLine
+		i++
+	}
+	
+	Random, fmsg, 1, i
+	
+	if !(FileExist(tpoc_file)) {
+		FileReadLine, pmsg, %tpoc_file%, 1
+		FileAppend,%fmsg%, %tpoc_file%
+	} else {
+		ParseTPOC()
+	}
+	;msgbox, % fmsg "`n" sm%fmsg%
+	return sm%fmsg%
+}
+
+ParseTPOC(requested_value) {
+ global tpoc_file
+	loop, Read, %tpoc_file%
+	{
+		v%i% := A_LoopReadLine
+		if InStr("v" i, requested_value) {
+			data := v%i%
+			value_ready := RegExReplace(data, requested_value ":\s", "")
+			break
+		}
+		i++
+	}
+	return value_ready
+}
+
+GenTest:
+	GenRndStrFromFile(A_ScriptDir "\data\rndmsg.txt")
+return
+
+
 SplashScreen:
 	author := % "author: " email
-	splash_width := 300
+	splash_width := 350
 	splash_height := 120
 	splash_shadow_w := splash_width + 1
 	splash_shadow_h := splash_height + 1
@@ -23,11 +66,10 @@ SplashScreen:
 	WinSet, ExStyle, +0x20
 	Gui, SplashScreen: Color,% "0x" color_main
 	Gui, SplashScreen: Add, Picture, x15 y15, %A_ScriptDir%\data\gui\logo_splash.png
-	;AnimatedGif(SC_hwnd, A_ScriptDir "\data\gui\floani.gif", 5, 0 , 100, 100)
 	GuiBigPixelFont("SplashScreen",color_main_titletext)
 	Gui, SplashScreen: Add, Text, x%text_margin_left% y30 BackgroundTrans, % apptitle
 	GUIRegularFont("SplashScreen","364243")
-	Gui, SplashScreen: Add, Text, x%text_margin_left% y+-4 x+-100 BackgroundTrans, % "He's your bro!"
+	Gui, SplashScreen: Add, Text, x%text_margin_left% y+-2 x+-103 BackgroundTrans, % GenRndStrFromFile(A_ScriptDir "\data\rndmsg.txt")
 	GUISmallFont("SplashScreen","426a6c")
 	Gui, SplashScreen: Add, Text, x%text_margin_left% y+18 BackgroundTrans, % "version: " version "`n" author
 	Gui, SplashScreen: Show, % "w" splash_width " h" splash_height " NoActivate"
@@ -103,11 +145,11 @@ DrawLine(char,length) {
 
 ; Font settings
 GUIRegularFont(guiname,color:=111111) {
-	Gui, %guiname%: Font, c0%color% s11 w900 q5, Calibri
+	Gui, %guiname%: Font, c0%color% s9 w900 q5, Calibri
 }
 
 GUISmallFont(guiname,color:=656565) {
-	Gui, %guiname%: Font, c0%color% s9 w900 q5, Calibri
+	Gui, %guiname%: Font, c0%color% s9 w900 q5, Franklin Gothic Condesed
 }
 
 GuiBigPixelFont(guiname,color:=111111) {

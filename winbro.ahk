@@ -35,9 +35,9 @@ GroupAdd FileExplorer, ahk_class #32770
 ;; Global variables
 ;;;;;;;;;;;;;;;;;;
 global apptitle := "WinBro"
-global version := "0.65"
+global version := "0.75"
 global email := "szuru.buru@hotmaiil.com"
-global author := "Micha? Szulecki"
+global author := "Michał Szulecki"
 
 ; KDE variables
 global KDE_winfade_time_in := 50
@@ -48,13 +48,15 @@ global KDE_MBReleaseOffset := 60
 global KDE_winopacity_lock_opacity := 180
 global KDE_winopacity_lock_effect_time := 5
 
-global iniFile := % A_AppData "\Szuruburu\" apptitle "\" A_UserName "Settings.ini"
-
 ; Arrays
 global Gui_OLIndex := 1
 global Gui_OLSet := Object()
 global KDE_MinRestoreHistory := Object()
 GuiList=
+
+; File paths
+global ini_file := % A_AppData "\Szuruburu\" apptitle "\" A_UserName "Settings.ini"
+global tpoc_file := % A_AppData "\Szuruburu\" apptitle "\temppileofcheese.txt"
 
 ; Volume module
 global volume_destroy_time := -1200
@@ -69,7 +71,7 @@ Menu, Tray, Tip,% apptitle " v" version
 Menu, Tray, Add, ;-------------------------------
 Menu, Tray, Add, ;-------------------------------
 Menu, Tray, Add,% "Restart`tShift+Esc",Restart
-Menu, Tray, Add,% "Close " apptitle,Quit
+Menu, Tray, Add,% "Exit " apptitle,Quit
 Menu, Tray, icon,%A_ScriptDir%\so.ico
 Menu, Tray, click,1
 
@@ -81,9 +83,9 @@ else
 RunCode:
 	RestoreCursors()
 	FileCreateDir, % A_AppData "\Szuruburu\" apptitle
-	iniRead, Autostart, %iniFile%, General, bStartWithWindows, 1
+	iniRead, Autostart, %ini_file%, General, bStartWithWindows, 1
 
-	if !FileExist(iniFile) {
+	if !FileExist(ini_file) {
 		SaveSettings()
 	} else {
 		CheckWindowsStartup(Autostart)
@@ -113,6 +115,7 @@ RunCode:
 	; GUI testing zone ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
 	Hotkey, #+1, SplashScreenTest
+	Hotkey, #+2, GenTest
 	
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
@@ -120,7 +123,6 @@ RunCode:
 	Hotkey, #WheelUp, VolumeUp
 	Hotkey, #WheelDown, VolumeDown
 	Hotkey, #F1, HideDesktopIcons
-	;;;;;; Hotkey, ``, LinkBarGui
 	Hotkey, %modk_main% & Esc, AnyWindowAlwaysOnTopToggle
 	;Hotkey, WheelUp, HoverScroll_ScrollUP, P5000
 	;Hotkey, WheelDown, HoverScroll_ScrollDOWN, P5000
@@ -142,6 +144,8 @@ RunCode:
 	Hotkey, %modk_main% & v, GEN_xPasteNormal
 	Hotkey, ^+v, GEN_xPasteCCAndGo
 	;;;;;; KDE-like windows moving/resizing
+	Hotkey, Space, LockSpacebar
+	Hotkey, Space, off
 	Hotkey, %modk_main% & RButton, KDE_fResize
 	Hotkey, %modk_main% & LButton, KDE_fMove
 	Hotkey, %modk_main% & MButton, KDE_fMinMax
@@ -173,8 +177,7 @@ return
 ;==============----------------------------------------------------------==============;
 ;==============----------------------------------------------------------==============;
 
-SendUnicodeChar(charCode)
-{
+SendUnicodeChar(charCode) {
 	VarSetCapacity(ki, 28 * 2, 0)
 	EncodeInteger(&ki + 0, 1)
 	EncodeInteger(&ki + 6, charCode)
@@ -186,8 +189,7 @@ SendUnicodeChar(charCode)
 	DllCall("SendInput", "UInt", 2, "UInt", &ki, "Int", 28)
 }
 
-EncodeInteger(ref, val)
-{
+EncodeInteger(ref, val) {
 	DllCall("ntdll\RtlFillMemoryUlong", "Uint", ref, "Uint", 4, "Uint", val)
 }
 
@@ -208,7 +210,7 @@ EncodeInteger(ref, val)
 
 SaveSettings() {
 		global
-		iniWrite, %Autostart%, %iniFile%, General, bStartWithWindows
+		iniWrite, %Autostart%, %ini_file%, General, bStartWithWindows
 		CheckWindowsStartup(Autostart)
 	}
 
@@ -228,19 +230,17 @@ CheckWindowsStartup(enable) {
 Restart:
 	Critical
 	RestoreCursors()
-	gosub ExitCode
-	reload
+	GoSub, ExitCode
+	Reload
 return
 
 ; Tray subroutine
 Quit:
-
+	GoSub, ExitCode
+	ExitApp
 return
 
 ExitCode:
-	if (FileExist(tempvar))
-		FileDelete, % tempvar
-
 	RestoreCursors()
 return
 

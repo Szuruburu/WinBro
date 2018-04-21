@@ -22,53 +22,53 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 GEN_Up:
-if (GetKeyState(modk_alt) == 1)
+if (GetKeyState(modk_alt) == 1) {
 	SendInput, {Up %updownjump_size%}
-
-else if (GetKeyState(modk_ctrl) == 1)
+} else if (GetKeyState(modk_ctrl) == 1) {
 	SendInput, ^{Up}
-
-else
+} else {
 	SendInput, {Up}
+}
 return
 
 DEN_Down:
-if (GetKeyState(modk_alt) == 1)
+if (GetKeyState(modk_alt) == 1) {
 	SendInput, {Down %updownjump_size%}
-
-else if (GetKeyState(modk_ctrl) == 1)
+} else if (GetKeyState(modk_ctrl) == 1) {
 	SendInput, ^{Down}
-
-else
+} else {
 	SendInput, {Down}
+}
 return
 
 GEN_Left_Back:
-if (GetKeyState(modk_alt) == 1)
+if (GetKeyState(modk_alt) == 1) {
 	SendInput, !{Left}
-
-else if (GetKeyState(modk_shift) == 1)
-	SendInput, +{Left}
-
-else if (GetKeyState(modk_ctrl) == 1)
+} else if (GetKeyState(modk_shift) == 1) {
+	if (GetKeyState(modk_ctrl) == 1)
+		SendInput, ^+{Left}
+	else
+		SendInput, +{Left}
+} else if (GetKeyState(modk_alt) == 1) {
 	SendInput, ^{Left}
-
-else
+} else {
 	SendInput, {Left}
+}
 return
 
 GEN_Right_Forward:
-if (GetKeyState(modk_alt) == 1)
+if (GetKeyState(modk_alt) == 1) {
 	SendInput, !{Right}
-
-else if (GetKeyState(modk_shift) == 1)
-	SendInput, +{Right}
-
-else if (GetKeyState(modk_ctrl) == 1)
+} else if (GetKeyState(modk_shift) == 1) {
+	if (GetKeyState(modk_ctrl) == 1)
+		SendInput, ^+{Right}
+	else
+		SendInput, +{Right}
+} else if (GetKeyState(modk_ctrl) == 1) {
 	SendInput, ^{Right}
-
-else
+} else {
 	SendInput, {Right}
+}
 return
 
 GEN_auxUp:
@@ -92,22 +92,27 @@ GEN_auxDown:
 return
 
 GEN_xEnter_aBackspace:
-	if (GetKeyState(modk_shift) =+ 1)
-		SendInput, {backspace}
-	else if (GetKeyState(modk_ctrl) == 1)
+	if (GetKeyState(modk_shift) =+ 1) {
+		SendInput, {Backspace}
+	} else if (GetKeyState(modk_ctrl) == 1) {
 		SendInput, ^{Enter}
-	else
+	} else {
 		SendInput, {Enter}
+	}
 return
 
 ; Delete
 GEN_Delete:
-SendInput, {Delete}
+	if (GetKeyState(modk_ctrl) == 1) {
+		SendInput, ^{Delete}
+	} else {
+		SendInput, {Delete}
+	}
 return
 
 ; Undo
 GEN_Undo:
-SendInput, ^z
+	SendInput, ^z
 return
 
 CenterAndResizeWindow:
@@ -158,18 +163,13 @@ KDE_fMinMax:
 	WinGetClass, MinMax_class, ahk_id %MinMax_id%
 	WinGetTitle, MinMax_title, ahk_id %MinMax_id%
 
-	if !(MinMax_id=SETTINGS_hwnd) &&
-	!(MinMax_id=LBr_hwnd) &&
-	!(MinMax_id=LBrL_hwnd) &&
-	!(MinMax_class="Progman") &&
+	if !(MinMax_class="Progman") &&
 	!(MinMax_class="DV2ControlHost") &&
 	!(MinMax_class="Shell_TrayWnd") &&
 	!(MinMax_class="SysListView32") &&
 	!(MinMax_class="#32768") &&
-	!(MinMax_class="WorkerW") &&
-	!(MinMax_class="ConsoleWindowClass") &&
-	!(MinMax_title="DyspoWindow") {
-		;WinActivate ahk_id %MinMax_id%
+	!(MinMax_class="WorkerW") {
+
 		if (GetKeyState(modk_shift) = 1) {
 			gosub RetrieveLastMinimized
 			return
@@ -200,10 +200,6 @@ return
 
 RetrieveLastMinimized:
 	MinMax_PW_id := KDE_MinRestoreHistory.Pop()
-	/*
-	KDE_MinRestoreHistory.ShowMe := Func("ShowMe")
-	KDE_MinRestoreHistory.ShowMe()
-	*/
 	WinRestore, ahk_id %MinMax_PW_id%
 	WinActivate, ahk_id %MinMax_PW_id%
 return
@@ -218,10 +214,7 @@ KDE_fResize:
 	if (WinState = 1)
 		return
 
-	if !(KDEr_id=CONTROL_hwnd) &&
-	!(KDEr_id=LBr_hwnd) &&
-	!(KDEr_id=LBrL_hwnd) &&
-	!(KDEr_class="DV2ControlHost") &&
+	if !(KDEr_class="DV2ControlHost") &&
 	!(KDEr_class="Progman") &&
 	!(KDEr_class="Shell_TrayWnd") &&
 	!(KDEr_class="WorkerW") &&
@@ -283,6 +276,11 @@ KDE_fResize:
 	}
 return
 
+LockSpacebar:
+	{
+		space::return
+	}
+
 SpaceBarOn_Delay:
 	Hotkey, Space, off
 return
@@ -295,15 +293,11 @@ KDE_fMove:
 	WinGetTitle, KDEm_title, ahk_id %KDEm_id%
 	WinGetPos, OriginalPosX, OriginalPosY,,, ahk_id %KDEm_id%
 	
-	if !(KDEm_id=LBr_hwnd) &&
-	!(KDEm_id=LBrL_hwnd) &&
-	!(KDEm_class="DV2ControlHost") &&
+	if !(KDEm_class="DV2ControlHost") &&
 	!(KDEm_class="Progman") &&
 	!(KDEm_class = "Windows.UI.Core.CoreWindow") &&
 	!(KDEm_class="Shell_TrayWnd") &&
-	!(KDEm_class="WorkerW") &&
-	!(KDEm_class ="ConsoleWindowClass") &&
-	!(KDEm_title="DyspoWindow") {
+	!(KDEm_class="WorkerW") {
 		WinGet, WinTrans, Transparent, ahk_id %KDEm_id%
 		if (WinTrans <> KDE_winfade_opacity) {
 			WinSet, Transparent, %KDE_winfade_opacity%, ahk_id %KDEm_id%
@@ -367,10 +361,6 @@ capslock & 2::
 		y := 0
 		WinMove, ahk_id %winID%,,x,y,w,h
 }
-return
-
-capslock & 3::
-	
 return
 
 ClearWindowLock:
@@ -764,11 +754,9 @@ return
 
 FEN_xEnter_aBack:
 	if (GetKeyState(modk_shift) == 1) {
-		SendInput, {backspace}
+		SendInput, {Backspace}
 	} else {
 		Send, {Enter}
-		Sleep, 100
-		Send, {Space}
 }
 return
 
