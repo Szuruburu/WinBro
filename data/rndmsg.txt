@@ -3,7 +3,7 @@ A multi-funcional navigation machine
 It's just a splash screen
 Push a button - watch what happens
 He's running in the tray!
-WinBros are goooooooo!
+WinBros are GOOO!!!
 Hi
 Initializing modules... Done.
-Initializing libraries... Done
+Initializing libraries... Done 

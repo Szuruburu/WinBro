@@ -9,10 +9,12 @@ GenRndStrFromFile(input_file) {
 	
 	Random, fmsg, 1, i-1
 	iniRead, pmsg, %ini_file%, TempValues, iRAN_msgPreviousPhraseIndex
+	if (fmsg == pmsg) {
+		fmsg := (fmsg < 1) ? fmsg + round(Fmsg/2)
+		: (fmsg == i) ? fmsg fmsg - round(Fmsg/2) : fmsg + 1
+	}
+	
 	Tip("previous: " pmsg "`ncurrent: " fmsg)
-	if (fmsg == pmsg)
-		fmsg := (fmsg == 1) ? fmsg + round(Fmsg/2)
-		: (fmsg == i) ? fmsg fmsg - round(Fmsg/2) : fmsg + round(Fmsg/2)
 	iniWrite, %fmsg%, %ini_file%, TempValues, iRAN_msgPreviousPhraseIndex
 	return sm%fmsg%
 }
