@@ -77,7 +77,6 @@ TestHK(t_hwnd, t_br, t_dr) {
 }
 
 WL_ReleaseButton:
-	
 	WinGetPos, win_x, win_y,,, ahk_id %LOCKED_hwnd%
 	ct_bgcolor := "252525"
 	margin := 50

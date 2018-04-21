@@ -84,7 +84,7 @@ RunCode:
 	RestoreCursors()
 	FileCreateDir, % A_AppData "\Szuruburu\" apptitle
 	iniRead, Autostart, %ini_file%, General, bStartWithWindows, 1
-	iniRead, WL_locked, %tpoc_file%, TempValues, bWL_locked, false
+	iniRead, WL_locked, %tpoc_file%, TempValues, bWL_locked, 0
 	iniRead, LOCKED_hwnd, %tpoc_file%, TempValues, idWL_LockedHWND
 	
 	if (WinExist("ahk_id " LOCKED_hwnd)) {

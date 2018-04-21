@@ -353,7 +353,6 @@ KDE_fMove:
 			return
 		}
 	} else {
-		Hotkey, Space, off
 		RestoreCursors()
 	}
 return
@@ -458,7 +457,6 @@ WatchMouse:
 		
 		CoordMode, Mouse
 		SetTimer, WatchMouse, off
-		Hotkey, Space, off
 		return
 	}
 	
