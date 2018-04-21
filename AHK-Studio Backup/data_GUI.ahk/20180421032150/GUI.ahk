@@ -8,14 +8,23 @@ GenRndStrFromFile(input_file) {
 	}
 	
 	Random, fmsg, 1, i-1
-	iniRead, pmsg, %ini_file%, TempValues, iRAN_msgPreviousPhraseIndex
-	Tip("previous: " pmsg "`ncurrent: " fmsg)
-	if (fmsg == pmsg)
-		fmsg := (fmsg == 1) ? fmsg + round(Fmsg/2)
-		: (fmsg == i) ? fmsg fmsg - round(Fmsg/2) : fmsg + round(Fmsg/2)
+	
+	; iniRead, Autostart, %ini_file%, General, bStartWithWindows, 1
+	iniRead, pmsg, %
+		if (fmsg == pmsg)
+			fmsg := (fmsg == 1) ? fmsg++
+			: (fmsg == i) ? fmsg-- : pmsg
+		
+	}
+	;msgbox, % fmsg "`n" sm%fmsg%
 	iniWrite, %fmsg%, %ini_file%, TempValues, iRAN_msgPreviousPhraseIndex
 	return sm%fmsg%
 }
+
+GenTest:
+	GenRndStrFromFile(A_ScriptDir "\data\rndmsg.txt")
+return
+
 
 SplashScreen:
 	author := % "author: " email
@@ -45,7 +54,7 @@ SplashScreen:
 	GuiBigPixelFont("SplashScreen",color_main_titletext)
 	Gui, SplashScreen: Add, Text, x%text_margin_left% y30 BackgroundTrans, % apptitle
 	GUIRegularFont("SplashScreen","364243")
-	Gui, SplashScreen: Add, Text, x%text_margin_left% y+-2 x+-103 BackgroundTrans, % GenRndStrFromFile(ranmsg_file)
+	Gui, SplashScreen: Add, Text, x%text_margin_left% y+-2 x+-103 BackgroundTrans, % GenRndStrFromFile(A_ScriptDir "\data\rndmsg.txt")
 	GUISmallFont("SplashScreen","426a6c")
 	Gui, SplashScreen: Add, Text, x%text_margin_left% y+18 BackgroundTrans, % "version: " version "`n" author
 	Gui, SplashScreen: Show, % "w" splash_width " h" splash_height " NoActivate"

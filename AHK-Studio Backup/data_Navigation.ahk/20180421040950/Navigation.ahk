@@ -347,7 +347,6 @@ KDE_fMove:
 			return
 		}
 	} else {
-		Hotkey, Space, off
 		RestoreCursors()
 	}
 return
@@ -427,7 +426,6 @@ WatchMouse:
 		if (SpaceState = "D")
 		{
 			; Transparency lock
-			Hotkey, Space, on
 			WinFade("ahk_id " KDEm_id,KDE_winopacity_lock_opacity,KDE_winopacity_lock_effect_time)
 			WinGetPos, win_x, win_y,,,ahk_id %KDEm_id%
 			WinSet, AlwaysOnTop, On, ahk_id %KDEm_id%
@@ -471,7 +469,6 @@ WatchMouse:
 		
 		CoordMode, Mouse
 		SetTimer, WatchMouse, off
-		Hotkey, Space, off
 		return
 	}
 	
@@ -539,7 +536,7 @@ KDE_WatchMouseWinRestoreLR:
 			Send, {RWin down}{Left}{RWin up}
 		
 		SetTimer, WatchMouse, on
-		Sleep, 80
+		sleep 80
 		;CoordMode, Mouse
 		MouseGetPos, ReleaseX, ReleaseY
 		WinGetPos,,, WinW, WinH, ahk_id %KDEm_id%

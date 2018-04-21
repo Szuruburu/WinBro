@@ -49,13 +49,14 @@ global KDE_winopacity_lock_opacity := 180
 global KDE_winopacity_lock_effect_time := 5
 
 ; Arrays
+global Gui_OLIndex := 1
 global Gui_OLSet := Object()
 global KDE_MinRestoreHistory := Object()
 GuiList=
 
 ; File paths
 global ini_file := % A_AppData "\Szuruburu\" apptitle "\" A_UserName "Settings.ini"
-global ranmsg_file := % A_ScriptDir "\data\rndmsg.txt"
+global tpoc_file := % A_AppData "\Szuruburu\" apptitle "\temppileofcheese.txt"
 
 ; Volume module
 global volume_destroy_time := -1200
@@ -113,7 +114,7 @@ RunCode:
 	
 	; GUI testing zone ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
-	Hotkey, #+1, SplashScreenTest
+	;Hotkey, #+1, SplashScreenTest
 	
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
@@ -165,7 +166,7 @@ RunCode:
 		ExitApp
 	}
 	
-	GoSub, SplashScreen
+	;GoSub, SplashScreen
 return
 
 ;==============  THE END OF...

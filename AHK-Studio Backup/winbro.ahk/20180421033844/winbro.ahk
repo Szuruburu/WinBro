@@ -113,7 +113,7 @@ RunCode:
 	
 	; GUI testing zone ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
-	Hotkey, #+1, SplashScreenTest
+	;Hotkey, #+1, SplashScreenTest
 	
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
@@ -165,7 +165,7 @@ RunCode:
 		ExitApp
 	}
 	
-	GoSub, SplashScreen
+	;GoSub, SplashScreen
 return
 
 ;==============  THE END OF...

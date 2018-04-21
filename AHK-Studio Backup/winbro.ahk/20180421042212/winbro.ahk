@@ -143,7 +143,7 @@ RunCode:
 	Hotkey, ^+v, GEN_xPasteCCAndGo
 	;;;;;; KDE-like windows moving/resizing
 	Hotkey, Space, LockSpacebar
-	Hotkey, Space, off
+	
 	Hotkey, %modk_main% & RButton, KDE_fResize
 	Hotkey, %modk_main% & LButton, KDE_fMove
 	Hotkey, %modk_main% & MButton, KDE_fMinMax

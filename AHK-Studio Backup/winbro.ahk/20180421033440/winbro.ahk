@@ -35,7 +35,7 @@ GroupAdd FileExplorer, ahk_class #32770
 ;; Global variables
 ;;;;;;;;;;;;;;;;;;
 global apptitle := "WinBro"
-global version := "0.76"
+global version := "0.75"
 global email := "szuru.buru@hotmaiil.com"
 global author := "Michał Szulecki"
 
@@ -49,13 +49,14 @@ global KDE_winopacity_lock_opacity := 180
 global KDE_winopacity_lock_effect_time := 5
 
 ; Arrays
+global Gui_OLIndex := 1
 global Gui_OLSet := Object()
 global KDE_MinRestoreHistory := Object()
 GuiList=
 
 ; File paths
 global ini_file := % A_AppData "\Szuruburu\" apptitle "\" A_UserName "Settings.ini"
-global ranmsg_file := % A_ScriptDir "\data\rndmsg.txt"
+global tpoc_file := % A_AppData "\Szuruburu\" apptitle "\temppileofcheese.txt"
 
 ; Volume module
 global volume_destroy_time := -1200
@@ -165,7 +166,7 @@ RunCode:
 		ExitApp
 	}
 	
-	GoSub, SplashScreen
+	;GoSub, SplashScreen
 return
 
 ;==============  THE END OF...

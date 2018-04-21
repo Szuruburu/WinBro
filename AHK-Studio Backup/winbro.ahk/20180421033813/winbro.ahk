@@ -55,7 +55,6 @@ GuiList=
 
 ; File paths
 global ini_file := % A_AppData "\Szuruburu\" apptitle "\" A_UserName "Settings.ini"
-global ranmsg_file := % A_ScriptDir "\data\rndmsg.txt"
 
 ; Volume module
 global volume_destroy_time := -1200
@@ -113,7 +112,7 @@ RunCode:
 	
 	; GUI testing zone ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
-	Hotkey, #+1, SplashScreenTest
+	;Hotkey, #+1, SplashScreenTest
 	
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
@@ -165,7 +164,7 @@ RunCode:
 		ExitApp
 	}
 	
-	GoSub, SplashScreen
+	;GoSub, SplashScreen
 return
 
 ;==============  THE END OF...

@@ -539,7 +539,7 @@ KDE_WatchMouseWinRestoreLR:
 			Send, {RWin down}{Left}{RWin up}
 		
 		SetTimer, WatchMouse, on
-		Sleep, 80
+		sleep 80
 		;CoordMode, Mouse
 		MouseGetPos, ReleaseX, ReleaseY
 		WinGetPos,,, WinW, WinH, ahk_id %KDEm_id%
