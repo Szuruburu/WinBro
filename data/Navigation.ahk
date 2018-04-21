@@ -92,12 +92,17 @@ GEN_auxDown:
 return
 
 GEN_xEnter_aBackspace:
-	if (GetKeyState(modk_shift) =+ 1) {
-		SendInput, {Backspace}
-	} else if (GetKeyState(modk_ctrl) == 1) {
-		SendInput, ^{Enter}
+	GetKeyState, lmbdown, LButton
+	if (lmbdown == "D") {
+		Hotkey, Space, on
 	} else {
-		SendInput, {Enter}
+		if (GetKeyState(modk_shift) =+ 1) {
+			SendInput, {Backspace}
+		} else if (GetKeyState(modk_ctrl) == 1) {
+			SendInput, ^{Enter}
+		} else {
+			SendInput, {Enter}
+		}
 	}
 return
 
@@ -371,10 +376,9 @@ return
 ClearWindowLock() {
 	global
 	WinSet, AlwaysOnTop, Off, ahk_id %LOCKED_hwnd%
-	WinSet, ExStyle,-0x20, ahk_id %LOCKED_hwnd%
-	WinFade("ahk_id " ct_hwnd,0,20)
 	Gui, Clitog%i%: Destroy
 	WinFade("ahk_id " LOCKED_hwnd,255,KDE_winfade_time_in)
+	WinSet, ExStyle,-0x20, ahk_id %LOCKED_hwnd%
 	WinActivate, ahk_id %LOCKED_hwnd%
 	i++
 }
