@@ -342,6 +342,7 @@ KDE_fMove:
 		
 		WinGet, WinState, MinMax, ahk_id %KDEm_id%
 		if (WinState = 0) {
+			Hotkey, Space, on
 			SetSystemCursor("IDC_SIZEALL")
 			SetTimer, WatchMouse, 10
 			return
@@ -375,6 +376,8 @@ return
 
 ClearWindowLock() {
 	global
+	WL_locked := false
+	iniWrite, %WL_locked%, %tpoc_file%, TempValues, bWL_locked
 	WinSet, AlwaysOnTop, Off, ahk_id %LOCKED_hwnd%
 	Gui, Clitog%i%: Destroy
 	WinFade("ahk_id " LOCKED_hwnd,255,KDE_winfade_time_in)
@@ -401,8 +404,9 @@ Show_me(this) {
 }
 
 TransparencyLock:
+	WL_locked := true
+	iniWrite, %WL_locked%, %tpoc_file%, TempValues, bWL_locked
 	; Transparency lock
-	Hotkey, Space, on
 	WinFade("ahk_id " KDEm_id,KDE_winopacity_lock_opacity,KDE_winopacity_lock_effect_time)
 	Gui_OLSet.Insert(KDEm_id)
 	;Gui_OLSet.push(KDEm_id)

@@ -84,12 +84,14 @@ RunCode:
 	RestoreCursors()
 	FileCreateDir, % A_AppData "\Szuruburu\" apptitle
 	iniRead, Autostart, %ini_file%, General, bStartWithWindows, 1
+	iniRead, WL_locked, %tpoc_file%, TempValues, bWL_locked, false
 	iniRead, LOCKED_hwnd, %tpoc_file%, TempValues, idWL_LockedHWND
 	
 	if (WinExist("ahk_id " LOCKED_hwnd)) {
 		iniRead, ct_x, %tpoc_file%, TempValues, iWL_ctx
 		iniRead, ct_y, %tpoc_file%, TempValues, iWL_cty
-		GoSub, WL_ReleaseButton
+		if (WL_locked == true)
+			GoSub, WL_ReleaseButton
 	}
 
 	if !FileExist(ini_file) {
@@ -129,7 +131,7 @@ RunCode:
 	Hotkey, +Esc, Restart
 	Hotkey, %volModk%WheelUp, VolumeUp
 	Hotkey, %volModk%WheelDown, VolumeDown
-	Hotkey, #F1, HideDesktopIcons
+	Hotkey, %modk_main% & F1, HideDesktopIcons
 	Hotkey, %modk_main% & Esc, AnyWindowAlwaysOnTopToggle
 	;Hotkey, WheelUp, HoverScroll_ScrollUP, P5000
 	;Hotkey, WheelDown, HoverScroll_ScrollDOWN, P5000
