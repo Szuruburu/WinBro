@@ -90,6 +90,7 @@ RunCode:
 	RestoreCursors()
 	FileCreateDir, % A_AppData "\Szuruburu\" apptitle
 	iniRead, Autostart, %ini_file%, General, bStartWithWindows, 1
+	iniRead, admin_cb_handler, %ini_file%, General, bStartWithAdminRights, 0
 	iniRead, KDE_WindowLock_Transparency, %ini_file%, KDElike, iKDElikeWindowTransparency, 240
 	iniRead, KDE_winfade_opacity, %ini_file%, KDElike, iKDElikeMoveResizeTransparency, 220
 	iniRead, KDE_winfade_time_in, %ini_file%, KDElike, iKDElikeFadeInAnimationDuration, 25
@@ -180,11 +181,14 @@ RunCode:
 	Hotkey, %modk_main% & %navAuxUp%, FEN_xToTheTop
 	Hotkey, %modk_main% & %navAuxDown%, FEN_fToTheBottom
 	Hotkey, IfWinActive
-
-	if not A_IsAdmin
-	{
-		Run *RunAs "%A_ScriptFullPath%"  ; Requires v1.0.92.01+
-		ExitApp
+	
+	if (admin_cb_handler == 1) {
+		if not A_IsAdmin
+		{
+			;MsgBox, % "Running as Admin"
+			Run *RunAs "%A_ScriptFullPath%"  ; Requires v1.0.92.01+
+			ExitApp
+		}
 	}
 	
 	GoSub, SplashScreen
@@ -227,28 +231,18 @@ EncodeInteger(ref, val) {
 SaveSettings() {
 	global
 		iniWrite, %Autostart%, %ini_file%, General, bStartWithWindows
+		iniWrite, %admin_cb_handler%, %ini_file%, General, bStartWithAdminRights
 		iniWrite, %KDE_WindowLock_Transparency%, %ini_file%, KDElike, iKDElikeWindowTransparency
 		iniWrite, %KDE_winfade_time_in%, %ini_file%, KDElike, iKDElikeFadeInAnimationDuration
+		iniWrite, %KDE_winfade_time_out%, %ini_file%, KDElike, iKDElikeFadeOutAnimationDuration
 		iniWrite, %KDE_winfade_opacity%, %ini_file%, KDElike, iKDElikeMoveResizeTransparency
 		CheckWindowsStartup(Autostart)
-	}
-
-CheckWindowsStartup(enable) {
-	LinkFile=%A_Startup%\%apptitle%.lnk
-	if !FileExist(LinkFile) {
-		if (enable) {
-			FileCreateShortcut, %A_ScriptFullPath%, %LinkFile%
-		}
-	} else {
-		if (!enable) {
-			FileDelete, %LinkFile%
-		}
-	}
 }
 
 Restart:
 	Critical
 	RestoreCursors()
+	;SaveSettings()
 	GoSub, ExitCode
 	Reload
 return

@@ -345,10 +345,11 @@ capslock & 2::
 return
 
 ClearWindowLock:
+	SetTimer, CorrectAlwaysOnTop, off
 	WL_locked := false
 	iniWrite, %WL_locked%, %tpoc_file%, TempValues, bWL_locked
 	WinSet, AlwaysOnTop, Off, ahk_id %LOCKED_hwnd%
-	Gui, Clitog%i%: Destroy
+	Gui, Clitog: Destroy
 	WinFade("ahk_id " LOCKED_hwnd,255,KDE_winfade_time_in)
 	WinSet, ExStyle,-0x20, ahk_id %LOCKED_hwnd%
 	WinActivate, ahk_id %LOCKED_hwnd%

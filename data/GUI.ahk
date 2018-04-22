@@ -95,21 +95,28 @@ WL_ReleaseButton:
 	
 	iniWrite, %ct_y%, %tpoc_file%, TempValues, iWL_cty
 	reloaded := false
-
-	CoordMode,Mouse
-	GUi, Clitog%i%:-Caption +LastFound +ToolWindow +AlwaysOnTop
+	
+	CoordMode, Mouse
+	Gui, Clitog:-Caption +LastFound +ToolWindow +AlwaysOnTop
 	ct_hwnd := WinExist()
 	WinSet, Transparent, 0
-	Gui, Clitog%i%: Color, % "0x" ct_bgcolor
-	Gui, Clitog%i%: Add, Button, x0 y0 w%ct_w% h%ct_h% gClearWindowLock, % "RELEASE" 
-	Gui, Clitog%i%: Show, x%ct_x% y%ct_y% w%ct_w% h%ct_h% NoActivate
+	Gui, Clitog: Color, % "0x" ct_bgcolor
+	Gui, Clitog: Add, Button, x0 y0 w%ct_w% h%ct_h% gClearWindowLock, % "RELEASE" 
+	Gui, Clitog: Show, x%ct_x% y%ct_y% w%ct_w% h%ct_h% NoActivate
 	WinFade("ahk_id " ct_hwnd,225,10)
 	
 	Gui_OLSet.Insert(ct_hwnd)
+	SetTimer, CorrectAlwaysOnTop, 50
 	/*
 	Gui_OLSet.Show_Me := Func("Show_Me")
 	Gui_OLSet.Show_Me()
 	*/
+return
+
+CorrectAlwaysOnTop:
+	if (WinActive("ahk_id " LOCKED_hwnd)) {
+		WinSet, AlwaysOnTop, On, ahk_id %ct_hwnd%
+	}
 return
 
 ClickIndicatorDestroy:
