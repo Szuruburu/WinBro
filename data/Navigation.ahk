@@ -129,20 +129,6 @@ CenterAndResizeWindow:
 		WinMove, A,,x,y,w,h
 return
 
-ActivateWindow() {
-	DetectHiddenWindows Off
-	WinGet, WinList, List,,, Program Manager
-	loop, %WinList% {
-		Current := WinList%A_Index%
-		WinGetTitle, WinTitle, ahk_id %Current%
-		if WinTitle
-			List .= WinTitle "`n"
-	}
-	
-	clipboard := List
-	DetectHiddenWindows On
-}
-
 ; Close window on mouse hover
 KDE_fClose:
 	MouseGetPos,,,Close_ID
@@ -370,33 +356,17 @@ capslock & 2::
 return
 
 ClearWindowLock:
-	ClearWindowLock()
-return
-
-ClearWindowLock() {
-	global
 	WL_locked := false
 	iniWrite, %WL_locked%, %tpoc_file%, TempValues, bWL_locked
 	WinSet, AlwaysOnTop, Off, ahk_id %LOCKED_hwnd%
-	WinSet, Style, +0xC00000, ahk_id %LOCKED_hwnd%
 	Gui, Clitog%i%: Destroy
 	WinFade("ahk_id " LOCKED_hwnd,255,KDE_winfade_time_in)
 	WinSet, ExStyle,-0x20, ahk_id %LOCKED_hwnd%
 	WinActivate, ahk_id %LOCKED_hwnd%
 	i++
-}
+return
 
-ApplyWindowLock(hwnd) {
-	global
-	LOCKED_hwnd := WinActive()
-	IniWrite, %LOCKED_hwnd%, %tpoc_file%, TempValues, idWL_LockedHWND
-	WinSet, AlwaysOnTop, On, ahk_id %LOCKED_hwnd%
-	WinSet, ExStyle, +0x20, ahk_id %LOCKED_hwnd%
-	WinSet, Style, -0xC00000, ahk_id %LOCKED_hwnd%  ; Remove the active window's title bar (WS_CAPTION).
-	GoSub, WL_ReleaseButton
-}
-
-Show_me(this) {
+HShow_me(this) {
 	loop % this.MaxIndex()
 		GuiList .= A_Index ": " this[A_Index] "`n"
 	clipboard=
@@ -408,11 +378,15 @@ TransparencyLock:
 	WL_locked := true
 	iniWrite, %WL_locked%, %tpoc_file%, TempValues, bWL_locked
 	; Transparency lock
-	WinFade("ahk_id " KDEm_id,KDE_WindowLock_Transparency,KDE_winopacity_lock_effect_time)
-	Gui_OLSet.Insert(KDEm_id)
+	LOCKED_hwnd := KDEm_id
+	Gui_OLSet.Insert(LOCKED_hwnd)
 	;Gui_OLSet.push(KDEm_id)
-	ApplyWindowLock(KDEm_id)
-	SetTimer, SpaceBarOn_Delay, -1000
+	IniWrite, %LOCKED_hwnd%, %tpoc_file%, TempValues, idWL_LockedHWND
+	WinSet, AlwaysOnTop, On, ahk_id %LOCKED_hwnd%
+	WinSet, ExStyle, +0x20, ahk_id %LOCKED_hwnd%
+	WinFade("ahk_id " LOCKED_hwnd,KDE_WindowLock_Transparency,KDE_winopacity_lock_effect_time)
+	GoSub, WL_ReleaseButton
+	SetTimer, SpaceBarOn_Delay, -2000
 	RestoreCursors()
 	SetTimer, WatchMouse, off
 return
@@ -428,6 +402,7 @@ WatchMouse:
 		if (SpaceState = "D")
 		{
 			GoSub, TransparencyLock
+			return
 		}
 		
 		GetKeyState, KDEr_Button, RButton, P
@@ -486,27 +461,7 @@ WatchMouse:
 	WinGetPos,shbx,shby,,, ahk_id %SHD_hwnd_bak%
 	WinGetPos,ovx,ovy,,, ahk_id %Overlay_id%
 
-	if (KDEm_id==SETTINGS_hwnd || KDEm_id==DIALOG_hwnd) {
-		WinMove, ahk_id %KDEm_id%,, WinX + MouseX - MouseStartX, WinY + MouseY - MouseStartY
-		WinMove, ahk_id %Overlay_id%,, ovx + MouseX - MouseStartX, ovy + MouseY - MouseStartY
-		WinMove, ahk_id %SHD_hwnd%,, shx + MouseX - MouseStartX , shy + MouseY - MouseStartY
-	}
-	
-	else if (KDEm_id==CONTROL_hwnd) {
-		WinMove, ahk_id %KDEm_id%,, WinX + MouseX - MouseStartX, WinY + MouseY - MouseStartY
-		WinMove, ahk_id %Overlay_id%,, ovx + MouseX - MouseStartX, ovy + MouseY - MouseStartY
-		
-		if (WinExist("ahk_id" SHD_hwnd) && !WinExist("ahk_id" SHD_hwnd_bak))
-			WinMove, ahk_id %SHD_hwnd%,, shx + MouseX - MouseStartX , shy + MouseY - MouseStartY
-		
-		else if (WinExist("ahk_id" SHD_hwnd) && WinExist("ahk_id" SHD_hwnd_bak))
-			WinMove, ahk_id %SHD_hwnd_bak%,, shbx + MouseX - MouseStartX , shby + MouseY - MouseStartY
-	}
-	
-	else {
-		WinMove, ahk_id %KDEm_id%,,WinX+MouseX-MouseStartX,WinY+MouseY-MouseStartY
-	}
-	
+	WinMove, ahk_id %KDEm_id%,,WinX+MouseX-MouseStartX,WinY+MouseY-MouseStartY
 	MouseStartX := MouseX ; Update for the next timer-call to this subroutine.
 	MouseStartY := MouseY
 return

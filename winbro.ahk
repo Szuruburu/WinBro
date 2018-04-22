@@ -225,6 +225,7 @@ EncodeInteger(ref, val) {
 SaveSettings() {
 	global
 		iniWrite, %Autostart%, %ini_file%, General, bStartWithWindows
+		iniWrite, %KDE_WindowLock_Transparency%, %ini_file%, KDElike, iKDElikeWindowTransparency
 		CheckWindowsStartup(Autostart)
 	}
 
@@ -508,6 +509,11 @@ SplashDestroy:
 	WinFade("ahk_id " SCSH_hwnd,0,15)
 	Gui, SplashScreen: Destroy
 	Gui, SplashShadow: Destroy
+return
+
+SettingsDestroy:
+	WinFade("ahk_id " SET_hwnd,0,35)
+	Gui, Settings: Destroy
 return
 
 ; Caret loosing focus from input fields on frame-based website (CRM_M, Opti) after switching tabs with ctrl+tab / ctrl+shift+tab

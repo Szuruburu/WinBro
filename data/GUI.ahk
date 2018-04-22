@@ -106,8 +106,10 @@ WL_ReleaseButton:
 	WinFade("ahk_id " ct_hwnd,225,10)
 	
 	Gui_OLSet.Insert(ct_hwnd)
+	/*
 	Gui_OLSet.Show_Me := Func("Show_Me")
 	Gui_OLSet.Show_Me()
+	*/
 return
 
 ClickIndicatorDestroy:
@@ -160,11 +162,11 @@ DrawLine(char,length) {
 
 ; Font settings
 GUIRegularFont(guiname,color:=111111) {
-	Gui, %guiname%: Font, c0%color% s9 w400 q5, Calibri
+	Gui, %guiname%: Font, c0%color% s10 w400 q5, Franklin Gothic Medium Cond
 }
 
 GUISmallFont(guiname,color:=656565) {
-	Gui, %guiname%: Font, c0%color% s9 w900 q5, Franklin Gothic Condesed
+	Gui, %guiname%: Font, c0%color% s9 w500 q5, Franklin Gothic Medium Cond
 }
 
 GuiBigPixelFont(guiname,color:=111111) {
