@@ -40,9 +40,9 @@ global email := "szuru.buru@hotmaiil.com"
 global author := "Michał Szulecki"
 
 ; KDE variables
-global KDE_winfade_time_in := 50
-global KDE_winfade_time_out := 12
-global KDE_winfade_opacity := 200
+;global KDE_winfade_time_in := 50
+;global KDE_winfade_time_out := 12
+;global KDE_winfade_opacity := 200
 global KDE_Mdrag_distance := 100
 global KDE_MBReleaseOffset := 60
 global KDE_winopacity_lock_effect_time := 5
@@ -70,7 +70,7 @@ global color_main_regulartext	:= "222222"
 Menu, Tray, Tip,% apptitle " v" version
 Menu, Tray, Add, ;-------------------------------
 Menu, Tray, Add, ;-------------------------------
-Menu, Tray, Add,% "Settings`t" modk_main,SettingsWindow
+Menu, Tray, Add,% "Settings`tCapslock+H",SettingsWindow
 Menu, Tray, Add,% "Reload`tShift+Esc",Restart
 Menu, Tray, Add,% "Exit " apptitle,Quit
 Menu, Tray, icon,%A_ScriptDir%\so.ico
@@ -91,7 +91,9 @@ RunCode:
 	FileCreateDir, % A_AppData "\Szuruburu\" apptitle
 	iniRead, Autostart, %ini_file%, General, bStartWithWindows, 1
 	iniRead, KDE_WindowLock_Transparency, %ini_file%, KDElike, iKDElikeWindowTransparency, 240
-	
+	iniRead, KDE_winfade_opacity, %ini_file%, KDElike, iKDElikeMoveResizeTransparency, 220
+	iniRead, KDE_winfade_time_in, %ini_file%, KDElike, iKDElikeFadeInAnimationDuration, 25
+	iniRead, KDE_winfade_time_out, %ini_file%, KDElike, iKDElikeFadeOutAnimationDuration, 12
 	iniRead, WL_locked, %tpoc_file%, TempValues, bWL_locked, 0
 	iniRead, LOCKED_hwnd, %tpoc_file%, TempValues, idWL_LockedHWND
 	
@@ -226,6 +228,8 @@ SaveSettings() {
 	global
 		iniWrite, %Autostart%, %ini_file%, General, bStartWithWindows
 		iniWrite, %KDE_WindowLock_Transparency%, %ini_file%, KDElike, iKDElikeWindowTransparency
+		iniWrite, %KDE_winfade_time_in%, %ini_file%, KDElike, iKDElikeFadeInAnimationDuration
+		iniWrite, %KDE_winfade_opacity%, %ini_file%, KDElike, iKDElikeMoveResizeTransparency
 		CheckWindowsStartup(Autostart)
 	}
 

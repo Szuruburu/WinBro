@@ -214,8 +214,8 @@ KDE_fResize:
 	!(KDEr_title="DyspoWindow") {
 		WinGet, WinTrans, Transparent, ahk_id %KDEr_id%
 		if (WinTrans <> KDE_winfade_opacity) {
-			WinSet, Transparent, %KDE_winfade_opacity%, ahk_id %KDEr_id%
-			;WinFade("ahk_id " KDEr_id, KDE_winfade_opacity, KDE_winfade_time_in, true,,true)
+			;WinSet, Transparent, %KDE_winfade_opacity%, ahk_id %KDEr_id%
+			WinFade("ahk_id " KDEr_id, KDE_winfade_opacity, KDE_winfade_time_in)
 		} else {
 			WinGet, WinCurrentTrans, Transparent, ahk_id %KDEr_id%
 			WinSet, Transparent, %WinCurrentTrans%, ahk_id %KDEr_id%
@@ -291,24 +291,13 @@ KDE_fMove:
 	!(KDEm_class="WorkerW") {
 		WinGet, WinTrans, Transparent, ahk_id %KDEm_id%
 		if (WinTrans <> KDE_winfade_opacity) {
-			WinSet, Transparent, %KDE_winfade_opacity%, ahk_id %KDEm_id%
-			;WinFade("ahk_id " KDEm_id, KDE_winfade_opacity, KDE_winfade_time_in, true,, true)
+			WinFade("ahk_id " KDEm_id, KDE_winfade_opacity, KDE_winfade_time_in)
+			;WinSet, Transparent, %KDE_winfade_opacity%, ahk_id %KDEm_id%
 			WinActivate, ahk_id %KDEm_id%
 		} else {
 			WinGet, WinCurrentTrans, Transparent, ahk_id %KDEm_id%
 			WinSet, Transparent, %WinCurrentTrans%, ahk_id %KDEm_id%
 		}
-		; LEFT		RIGHT
-		; win_x: 0		win_x: 960
-		; win_y: 30		win_y: 30
-		; win_w: 960	win_w: 960
-		; win_h: 988	win_h: 988
-		
-		; LEFT		RIGHT
-		; win_x: -7		win_x: 793
-		; win_y: 0		win_y: 0
-		; win_w: 814	win_w: 814
-		; win_h: 867	win_h: 867
 		
 		taskbarMaxH := 50
 		WinGetPos, x, y, wW, wH, ahk_id %KDEm_id%
