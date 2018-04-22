@@ -1,5 +1,14 @@
-﻿SettingsWindow:
-	global _sg1_handler
+﻿
+
+
+
+
+
+
+
+
+SettingsWindow:
+	global _sg1_handler, lwt_slider
 	settings_w := 600
 	settings_h := 400
 	gx := 20
@@ -12,14 +21,25 @@
 	WinSet, Transparent, 0, ahk_id %SET_hwnd%
 	
 	GUIHeaderFont("Settings")
-	Gui, Settings: Add, GroupBox, % "x" gx " y" gy " w" gw " h" gh " v_sg1_handler", % "Modules"
+	Gui, Settings: Add, GroupBox, % "x" gx " y" gy " w" gw " h" gh " v_sg1_handler", % "Window Lock"
 	GUIRegularFont("Settings")
-	Gui, Settings: Add, Button, % "x" gx + p " y" gy + p " w" 100 " h" 40 " gS_PickWindow", % "Choose Window"
+	lwtx := gx + p
+	lwty := gy + p
+	Gui, Settings: Add, Text, % "x" lwtx " y" lwty " +BackgroundTrans", % "Locked window transparency"
+	Gui, Settings: Add, Edit, % "x" lwtx + 200 " y" lwty " vlwt_handler r1 w20 ReadOnly 0x1 0x8000000", % lwt_slider
+	Gui, Settings: Add, Slider, % "x" lwtx + 200 " y" lwty " w" 140 " h" 30 " vlwt_slider gUpdateWLTSliderVar Range1-20 Tooltip", % lwt_slider
+	
+	
+	;Gui, Settings: Add, Button, % "x" gx + p " y" gy + p " w" 100 " h" 40 " gS_PickWindow", % "Choose Window"
 	
 	Gui, Settings: Show, % "w" settings_w " h" settings_h " NoActivate", % apptitle "'s Settings"
 	WinActivate, ahk_id %SET_hwnd%
 	WinMoveFunc(SET_hwnd,"hc vc")
 	WinFade("ahk_id " SET_hwnd,255,20)
+return
+
+UpdateWLTSliderVar:
+	GuiControl,,lwt_handler, % lwt_slider
 return
 
 S_PickWindow:

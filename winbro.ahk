@@ -45,7 +45,6 @@ global KDE_winfade_time_out := 12
 global KDE_winfade_opacity := 200
 global KDE_Mdrag_distance := 100
 global KDE_MBReleaseOffset := 60
-global KDE_winopacity_lock_opacity := 180
 global KDE_winopacity_lock_effect_time := 5
 
 ; Arrays
@@ -82,10 +81,17 @@ if (!A_IsCompiled || ShowDebugMenu)
 else
 	menu,Tray,NoStandard
 
+; Initiate libraries
+#include %A_ScriptDir%\lib\Acc.ahk ; Required for scrolling in MS Office applications
+#include %A_ScriptDir%\lib\HoverScroll.ahk
+#include %A_ScriptDir%\lib\SetSystemCursor.ahk
+
 RunCode:
 	RestoreCursors()
 	FileCreateDir, % A_AppData "\Szuruburu\" apptitle
 	iniRead, Autostart, %ini_file%, General, bStartWithWindows, 1
+	iniRead, KDE_WindowLock_Transparency, %ini_file%, KDElike, iKDElikeWindowTransparency, 240
+	
 	iniRead, WL_locked, %tpoc_file%, TempValues, bWL_locked, 0
 	iniRead, LOCKED_hwnd, %tpoc_file%, TempValues, idWL_LockedHWND
 	
@@ -189,11 +195,6 @@ return
 ;==============----------------------------------------------------------==============;
 ;==============----------------------------------------------------------==============;
 
-; Initiate libraries
-#include %A_ScriptDir%\lib\Acc.ahk ; Required for scrolling in MS Office applications
-#include %A_ScriptDir%\lib\HoverScroll.ahk
-#include %A_ScriptDir%\lib\SetSystemCursor.ahk
-
 ; Initiate modules
 #include %A_ScriptDir%\data\Navigation.ahk
 #include %A_ScriptDir%\data\ToolTip.ahk
@@ -222,7 +223,7 @@ EncodeInteger(ref, val) {
 }
 
 SaveSettings() {
-		global
+	global
 		iniWrite, %Autostart%, %ini_file%, General, bStartWithWindows
 		CheckWindowsStartup(Autostart)
 	}

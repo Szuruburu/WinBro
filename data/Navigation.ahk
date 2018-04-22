@@ -274,7 +274,7 @@ KDE_fResize:
 	if (KDEm_Button = "U") {
 		RestoreCursors()
 		WinGet, WinTrans, Transparent, ahk_id %KDEr_id%
-		if (WinTrans != KDE_winopacity_lock_opacity) {
+		if (WinTrans != KDE_WindowLock_Transparency) {
 			WinFade("ahk_id " KDEr_id,255,KDE_winfade_time_out)
 		}
 		Winset, Redraw,,ahk_id %KDEr_id%
@@ -408,7 +408,7 @@ TransparencyLock:
 	WL_locked := true
 	iniWrite, %WL_locked%, %tpoc_file%, TempValues, bWL_locked
 	; Transparency lock
-	WinFade("ahk_id " KDEm_id,KDE_winopacity_lock_opacity,KDE_winopacity_lock_effect_time)
+	WinFade("ahk_id " KDEm_id,KDE_WindowLock_Transparency,KDE_winopacity_lock_effect_time)
 	Gui_OLSet.Insert(KDEm_id)
 	;Gui_OLSet.push(KDEm_id)
 	ApplyWindowLock(KDEm_id)
@@ -433,7 +433,7 @@ WatchMouse:
 		GetKeyState, KDEr_Button, RButton, P
 		if (KDEr_Button = "U") {
 			WinGet, WinTrans, Transparent, ahk_id %KDEm_id%
-			if (WinTrans <> KDE_winopacity_lock_opacity) {
+			if (WinTrans <> KDE_WindowLock_Transparency) {
 				WinFade("ahk_id " KDEm_id,255,KDE_winfade_time_out)
 				RestoreCursors()
 			}
