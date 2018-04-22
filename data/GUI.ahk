@@ -56,7 +56,7 @@ SplashScreen:
 	Gui, SplashScreen: Show, % "w" splash_width " h" splash_height " NoActivate"
 	WinMoveFunc(SC_hwnd,splash_position)
 	WinFade("ahk_id " SC_hwnd,255,6)
-	SetTimer, SplashDestroy, 2000
+	SetTimer, SplashDestroy, 3000
 return
 
 SplashScreenTest:
@@ -104,10 +104,31 @@ WL_ReleaseButton:
 	Gui, Clitog%i%: Add, Button, x0 y0 w%ct_w% h%ct_h% gClearWindowLock, % "RELEASE" 
 	Gui, Clitog%i%: Show, x%ct_x% y%ct_y% w%ct_w% h%ct_h% NoActivate
 	WinFade("ahk_id " ct_hwnd,225,10)
-
+	
 	Gui_OLSet.Insert(ct_hwnd)
 	Gui_OLSet.Show_Me := Func("Show_Me")
 	Gui_OLSet.Show_Me()
+return
+
+SettingsWindow:
+	settings_w := 600
+	settings_h := 400
+	Gui, Settings: +LastFound +MinSize%settings_w%x%settings_h%
+	SET_hwnd := WinExist()
+	WinSet, Transparent, 0, ahk_id %SET_hwnd%
+	
+	
+	
+	Gui, Settings: Show, % "w" settings_w " h" settings_h " NoActivate"
+	WinActivate, ahk_id %SET_hwnd%
+	WinMoveFunc(SET_hwnd,"hc vc")
+	WinFade("ahk_id " SET_hwnd,255,10)
+return
+
+SettingsGuiClose:
+SettingsGuiEscape:
+	WinFade("ahk_id " SET_hwnd,0,30)
+	Gui, Settings: Destroy
 return
 
 ClickIndicatorDestroy:

@@ -70,6 +70,7 @@ global color_main_regulartext	:= "222222"
 Menu, Tray, Tip,% apptitle " v" version
 Menu, Tray, Add, ;-------------------------------
 Menu, Tray, Add, ;-------------------------------
+Menu, Tray, Add,% "Settings`t" modk_main,SettingsWindow
 Menu, Tray, Add,% "Reload`tShift+Esc",Restart
 Menu, Tray, Add,% "Exit " apptitle,Quit
 Menu, Tray, icon,%A_ScriptDir%\so.ico
@@ -128,6 +129,7 @@ RunCode:
 	
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	
+	Hotkey, %modk_main% & h, SettingsWindow
 	Hotkey, +Esc, Restart
 	Hotkey, %volModk%WheelUp, VolumeUp
 	Hotkey, %volModk%WheelDown, VolumeDown

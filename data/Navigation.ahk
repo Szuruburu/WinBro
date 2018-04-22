@@ -418,8 +418,8 @@ return
 WatchMouse:
 	GetKeyState, LButtonState, LButton, P
 	; Button has been released, so drag is complete.
-	if (LButtonState = "U")
-	{
+	if (LButtonState == "U") {
+		Hotkey, Space, off
 		CoordMode, Mouse, Screen
 		MouseGetPos, MouseReleasePosX, MouseReleasePosY
 		GetKeyState, SpaceState, Space, P

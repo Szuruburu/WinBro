@@ -9,8 +9,8 @@ Initializing modules... Done.
 Initializing libraries... Done.
 Hold Capslock a lot
 Terminating the default CS function... Done.
-Geolocating user... J/k. Or Am I?
+Geolocating user... j/k. Or Am I?
 I was j/k about the geolocating eariler
-And remember - you'll find him in the tray
+Remember - you'll find him in the tray
 The meaning of life? Easy: 42
 I'm sorry, Dave. I'm afraid I cannot do that.
