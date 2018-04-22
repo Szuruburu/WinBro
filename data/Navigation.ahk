@@ -378,6 +378,7 @@ ClearWindowLock() {
 	WL_locked := false
 	iniWrite, %WL_locked%, %tpoc_file%, TempValues, bWL_locked
 	WinSet, AlwaysOnTop, Off, ahk_id %LOCKED_hwnd%
+	WinSet, Style, +0xC00000, ahk_id %LOCKED_hwnd%
 	Gui, Clitog%i%: Destroy
 	WinFade("ahk_id " LOCKED_hwnd,255,KDE_winfade_time_in)
 	WinSet, ExStyle,-0x20, ahk_id %LOCKED_hwnd%
@@ -391,6 +392,7 @@ ApplyWindowLock(hwnd) {
 	IniWrite, %LOCKED_hwnd%, %tpoc_file%, TempValues, idWL_LockedHWND
 	WinSet, AlwaysOnTop, On, ahk_id %LOCKED_hwnd%
 	WinSet, ExStyle, +0x20, ahk_id %LOCKED_hwnd%
+	WinSet, Style, -0xC00000, ahk_id %LOCKED_hwnd%  ; Remove the active window's title bar (WS_CAPTION).
 	GoSub, WL_ReleaseButton
 }
 

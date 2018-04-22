@@ -35,7 +35,7 @@ GroupAdd FileExplorer, ahk_class #32770
 ;; Global variables
 ;;;;;;;;;;;;;;;;;;
 global apptitle := "WinBro"
-global version := "0.78"
+global version := "0.83"
 global email := "szuru.buru@hotmaiil.com"
 global author := "Michał Szulecki"
 
@@ -63,6 +63,7 @@ global volume_destroy_time := -1200
 
 ; Color palette
 global color_main			:= "52bac0"	;global color_main := "00b12d"
+global color_aux			:= "e10b46"
 global color_main_titletext	:= "bfffff"
 global color_main_regulartext	:= "222222"
 
@@ -188,6 +189,22 @@ return
 ;==============----------------------------------------------------------==============;
 ;==============----------------------------------------------------------==============;
 
+; Initiate libraries
+#include %A_ScriptDir%\lib\Acc.ahk ; Required for scrolling in MS Office applications
+#include %A_ScriptDir%\lib\HoverScroll.ahk
+#include %A_ScriptDir%\lib\SetSystemCursor.ahk
+
+; Initiate modules
+#include %A_ScriptDir%\data\Navigation.ahk
+#include %A_ScriptDir%\data\ToolTip.ahk
+#include %A_ScriptDir%\data\Volume.ahk
+#include %A_ScriptDir%\data\Utils.ahk
+#include %A_ScriptDir%\data\HideDestkopIcons.ahk
+#include %A_ScriptDir%\data\GUI.ahk
+#include %A_ScriptDir%\data\Settings.ahk
+
+#IfWinActive
+
 SendUnicodeChar(charCode) {
 	VarSetCapacity(ki, 28 * 2, 0)
 	EncodeInteger(&ki + 0, 1)
@@ -203,21 +220,6 @@ SendUnicodeChar(charCode) {
 EncodeInteger(ref, val) {
 	DllCall("ntdll\RtlFillMemoryUlong", "Uint", ref, "Uint", 4, "Uint", val)
 }
-
-; Initiate libraries
-#include %A_ScriptDir%\lib\Acc.ahk ; Required for scrolling in MS Office applications
-#include %A_ScriptDir%\lib\HoverScroll.ahk
-#include %A_ScriptDir%\lib\SetSystemCursor.ahk
-
-; Initiate modules
-#include %A_ScriptDir%\data\Navigation.ahk
-#include %A_ScriptDir%\data\ToolTip.ahk
-#include %A_ScriptDir%\data\Volume.ahk
-#include %A_ScriptDir%\data\Utils.ahk
-#include %A_ScriptDir%\data\HideDestkopIcons.ahk
-#include %A_ScriptDir%\data\GUI.ahk
-
-#IfWinActive
 
 SaveSettings() {
 		global

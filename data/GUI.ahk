@@ -35,10 +35,10 @@ SplashScreen:
 	SCSH_hwnd := WinExist()
 	WinSet, Transparent, 0
 	WinSet, ExStyle, +0x20
-	Gui, SplashShadow: Color, 0x00777e
+	Gui, SplashShadow: Color, 0x%color_aux%
 	Gui, SplashShadow: Show, w%splash_shadow_w% h%splash_shadow_h% NoActivate
 	WinMoveFunc(SCSH_hwnd, splash_position)
-	WinFade("ahk_id " SCSH_hwnd,180,15)
+	WinFade("ahk_id " SCSH_hwnd,180,30)
 	
 	Gui, SplashScreen: -SysMenu -Caption +LastFound +ToolWindow +AlwaysOnTop
 	SC_hwnd := WinExist()
@@ -110,27 +110,6 @@ WL_ReleaseButton:
 	Gui_OLSet.Show_Me()
 return
 
-SettingsWindow:
-	settings_w := 600
-	settings_h := 400
-	Gui, Settings: +LastFound +MinSize%settings_w%x%settings_h%
-	SET_hwnd := WinExist()
-	WinSet, Transparent, 0, ahk_id %SET_hwnd%
-	
-	
-	
-	Gui, Settings: Show, % "w" settings_w " h" settings_h " NoActivate"
-	WinActivate, ahk_id %SET_hwnd%
-	WinMoveFunc(SET_hwnd,"hc vc")
-	WinFade("ahk_id " SET_hwnd,255,10)
-return
-
-SettingsGuiClose:
-SettingsGuiEscape:
-	WinFade("ahk_id " SET_hwnd,0,30)
-	Gui, Settings: Destroy
-return
-
 ClickIndicatorDestroy:
 	SetTimer, ClickIndicatorDestroy, off
 	WinFade("ahk_id " CLK_hwnd,0,30)
@@ -181,7 +160,7 @@ DrawLine(char,length) {
 
 ; Font settings
 GUIRegularFont(guiname,color:=111111) {
-	Gui, %guiname%: Font, c0%color% s9 w900 q5, Calibri
+	Gui, %guiname%: Font, c0%color% s8 w400 q5, Calibri
 }
 
 GUISmallFont(guiname,color:=656565) {
@@ -190,4 +169,8 @@ GUISmallFont(guiname,color:=656565) {
 
 GuiBigPixelFont(guiname,color:=111111) {
 	Gui, %guiname%: Font, c0%color% s18 w1950 q5, Terminal
+}
+
+GUIHeaderFont(guiname,color:=313131) {
+	Gui, %guiname%: Font, c0%color% s12 w100 q5, Calibri
 }
