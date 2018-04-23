@@ -114,7 +114,7 @@ SettingsGuiSize:
 	
 	GuiControl, Settings: Move, t3g1_handler, % "w" g_w
 	GuiControl, Settings: Move, t3g2_handler, % "w" g_w
-	GuiControl, Settings: Move, t1g1_handler, % "w" g_w " h" 
+	GuiControl, Settings: Move, t1g1_handler, % "w" g_w
 	
 	GuiControlGet, g1s1c_pos, Settings: Pos, g1s1c_handler
 	GuiControlGet, g1s1b_pos, Settings: Pos, KDE_WindowLock_Transparency
@@ -123,7 +123,7 @@ SettingsGuiSize:
 	
 	GuiControlGet, g1_pos, Settings: Pos, t3g1_handler
 	GuiControlGet, g2_pos, Settings: Pos, t3g2_handler
-	GuiControlGet, g1_pos, Settings: Pos, t1g1_handler
+	GuiControlGet, t1g1_pos, Settings: Pos, t1g1_handler
 	GuiControlGet, g2s1c_pos, Settings: Pos, g2s1c_handler
 	GuiControlGet, g2s2c_pos, Settings: Pos, g2s2c_handler
 	GuiControlGet, g2s3c_pos, Settings: Pos, g2s3c_handler
@@ -147,7 +147,7 @@ SettingsGuiSize:
 	GuiControl, Settings: Move, g2s3a_handler, % "y" g1_posY + g1_posH + g2s2c_posH + g2s3c_posH + p/2
 	
 	; TAB 1
-	GuiControl, Settings: Move, admin_cb_handler, % "y" g1_posY + p
+	GuiControl, Settings: Move, admin_cb_handler, % "y" t1g1_posY + p
 	
 	GuiControl, Settings: Move, save_handler, % "x" A_GuiWidth - save_w - p/2 " y" A_GuiHeight - bb_h - p/2 " w" save_w " h" bb_h 
 	GuiControl, Settings: Move, tabs_handler, % "x" tabs_x " y " tabs_y " w" tabs_w " h" tabs_h
