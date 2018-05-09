@@ -414,6 +414,9 @@ WatchMouse:
 			WinGetPos,,,WinX, WinY, ahk_id %KDEm_id%
 			WinMove, A_ScreenWidth / 2 - WinX / 2, A_ScreenHeight / 2 - WinY / 2
 			WinMinimize, ahk_id %KDEm_id%
+		}
+		
+		/*
 		} else if (MouseReleasePosX < KDE_MBReleaseOffset) {
 		; Snap to the left if mouse bWinGetPos, x, y, wW, wH, ahk_id %A_ID%utton release is an offset value from the left
 			SendInput, {RWin down}{Left}{RWin up}
@@ -421,6 +424,7 @@ WatchMouse:
 		} else if (MouseReleasePosX > A_ScreenWidth - KDE_MBReleaseOffset) {
 			SendInput, {RWin down}{Right}{RWin up}
 		}
+		*/
 		
 		CoordMode, Mouse
 		SetTimer, WatchMouse, off
