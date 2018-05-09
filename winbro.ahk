@@ -202,13 +202,13 @@ return
 ;==============----------------------------------------------------------==============;
 
 ; Initiate modules
-#include %A_ScriptDir%\data\Navigation.ahk
-#include %A_ScriptDir%\data\ToolTip.ahk
-#include %A_ScriptDir%\data\Volume.ahk
-#include %A_ScriptDir%\data\Utils.ahk
-#include %A_ScriptDir%\data\HideDestkopIcons.ahk
-#include %A_ScriptDir%\data\GUI.ahk
-#include %A_ScriptDir%\data\Settings.ahk
+#include data\Navigation.ahk
+#include data\ToolTip.ahk
+#include data\Volume.ahk
+#include data\Utils.ahk
+#include data\HideDestkopIcons.ahk
+#include data\GUI.ahk
+#include data\Settings.ahk
 
 #IfWinActive
 

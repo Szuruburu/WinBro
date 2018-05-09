@@ -50,7 +50,7 @@ SplashScreen:
 	GuiBigPixelFont("SplashScreen",color_main_titletext)
 	Gui, SplashScreen: Add, Text, x%text_margin_left% y30 BackgroundTrans, % apptitle
 	GUIRegularFont("SplashScreen","364243")
-	Gui, SplashScreen: Add, Text, x%text_margin_left% y+-2 x+-103 BackgroundTrans, % GenRndStrFromFile(ranmsg_file)
+	Gui, SplashScreen: Add, Text, x%text_margin_left% y+-2 x110 BackgroundTrans, % GenRndStrFromFile(ranmsg_file)
 	GUISmallFont("SplashScreen","426a6c")
 	Gui, SplashScreen: Add, Text, x%text_margin_left% y+18 BackgroundTrans, % "version: " version "`n" author
 	Gui, SplashScreen: Show, % "w" splash_width " h" splash_height " NoActivate"
