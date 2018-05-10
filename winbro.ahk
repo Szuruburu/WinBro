@@ -145,8 +145,13 @@ RunCode:
 	Hotkey, %volModk%WheelDown, VolumeDown
 	Hotkey, %modk_main% & F1, HideDesktopIcons
 	Hotkey, %modk_main% & Esc, AnyWindowAlwaysOnTopToggle
-	;Hotkey, WheelUp, HoverScroll_ScrollUP, P5000
-	;Hotkey, WheelDown, HoverScroll_ScrollDOWN, P5000
+	
+	;clipboard := A_OSVersion
+	if (A_OSVersion == "WIN_7") {
+		Hotkey, WheelUp, HoverScroll_ScrollUP, P5000
+		Hotkey, WheelDown, HoverScroll_ScrollDOWN, P5000
+	}
+	
 	Hotkey, %modk_main% & WheelDown, HoverScroll_ScrollRIGHT, P5000
 	Hotkey, %modk_main% & WheelUp, HoverScroll_ScrollLEFT, P5000
 	;;;;;; General Environement Navigation
@@ -189,9 +194,9 @@ RunCode:
 			Run *RunAs "%A_ScriptFullPath%"  ; Requires v1.0.92.01+
 			ExitApp
 		}
-	}
-	
-	GoSub, SplashScreen
+}
+
+GoSub, SplashScreen
 return
 
 ;==============  THE END OF...
@@ -202,13 +207,13 @@ return
 ;==============----------------------------------------------------------==============;
 
 ; Initiate modules
-#include data\Navigation.ahk
-#include data\ToolTip.ahk
-#include data\Volume.ahk
-#include data\Utils.ahk
-#include data\HideDestkopIcons.ahk
-#include data\GUI.ahk
-#include data\Settings.ahk
+#include %A_ScriptDir%\data\Navigation.ahk
+#include %A_ScriptDir%\data\ToolTip.ahk
+#include %A_ScriptDir%\data\Volume.ahk
+#include %A_ScriptDir%\data\Utils.ahk
+#include %A_ScriptDir%\data\HideDestkopIcons.ahk
+#include %A_ScriptDir%\data\GUI.ahk
+#include %A_ScriptDir%\data\Settings.ahk
 
 #IfWinActive
 
